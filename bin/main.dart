@@ -1,15 +1,7 @@
-import 'dart:io';
+import 'package:dore/dore.dart';
 
-void main() async {
-  const port = 8080;
-  final address = InternetAddress.loopbackIPv4;
+void main() {
+  var parse = define_parser('/foo/:bar');
 
-  var requestServer = await HttpServer.bind(address, port);
-  print('listening on localhost: ${requestServer.port}');
-
-  await for (HttpRequest request in requestServer) {
-    request.response
-      ..write('Hello, World')
-      ..close();
-  }
+  print(parse('/foo/what'));
 }
