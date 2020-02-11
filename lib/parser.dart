@@ -26,10 +26,15 @@ Function(String) define_parser(String path) {
   }
 
   return (String url) {
-    return extract_parameters(
-      parameter_keys,
-      RegExp('^$regex_pattern\$').matchAsPrefix(url),
-    );
+    RegExp pattern = RegExp('^$regex_pattern\$');
+    if (pattern.hasMatch(url)) {
+      return extract_parameters(
+        parameter_keys,
+        pattern.matchAsPrefix(url),
+      );
+    } else {
+      return null;
+    }
   };
 }
 

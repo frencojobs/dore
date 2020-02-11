@@ -1,7 +1,22 @@
 import 'package:dore/dore.dart';
 
 void main() {
-  var parse = define_parser('/foo/:bar');
+  Router router = Router();
 
-  print(parse('/foo/what'));
+  router.add(
+    Method.GET,
+    '/user/:id',
+    [
+      () {
+        print("get user");
+      }
+    ],
+  );
+
+  var obj = router.find(Method.GET, '/user/123');
+
+  print(obj['parameters']);
+  obj['handlers'].forEach((fn) {
+    fn();
+  });
 }
