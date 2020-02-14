@@ -3,17 +3,11 @@ import 'package:dore/dore.dart';
 void main() {
   Router router = Router();
 
-  router.add(
-    Method.GET,
-    '/user/:id',
-    [
-      () {
-        print("get user");
-      }
-    ],
-  );
+  router.get('/admin', () {
+    print("called admin");
+  });
 
-  var obj = router.find(Method.GET, '/user/123');
+  var obj = router.find(Method.GET, '/admin');
 
   print(obj['parameters']);
   obj['handlers'].forEach((fn) {

@@ -13,9 +13,28 @@ enum Method {
 
 class Router {
   List<Map> routes;
+  Function(String, dynamic) get, head, post, put, delete, connect, options, trace;
 
   Router() {
     this.routes = [];
+    this.get = this._bind(Method.GET);
+    this.head = this._bind(Method.HEAD);
+    this.post = this._bind(Method.POST);
+    this.put = this._bind(Method.PUT);
+    this.delete = this._bind(Method.DELETE);
+    this.connect = this._bind(Method.CONNECT);
+    this.options = this._bind(Method.OPTIONS);
+    this.trace = this._bind(Method.TRACE);
+  }
+
+  Function(String, dynamic) _bind(Method method) {
+    return (String route, dynamic fn_s) {
+      if (fn_s is Function) {
+        this.add(method, route, [fn_s]);
+      } else if (fn_s is List<Function>) {
+        this.add(method, route, fn_s);
+      } else {}
+    };
   }
 
   void add(Method method, String route, List<Function> fns) {
