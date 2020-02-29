@@ -12,11 +12,11 @@ enum Method {
 }
 
 class Router {
-  List<Map> routes;
+  List<Map> _routes;
   Function(String, dynamic) get, head, post, put, delete, connect, options, trace;
 
   Router() {
-    this.routes = [];
+    this._routes = [];
     this.get = this._bind(Method.GET);
     this.head = this._bind(Method.HEAD);
     this.post = this._bind(Method.POST);
@@ -40,7 +40,7 @@ class Router {
   void add(Method method, String route, List<Function> fns) {
     var parse = define_parser(route);
 
-    this.routes.add({
+    this._routes.add({
       'method': method,
       'parse': parse,
       'handlers': fns,
@@ -48,7 +48,7 @@ class Router {
   }
 
   Map find(Method method, String url) {
-    var r = this.routes.where((Map route) {
+    var r = this._routes.where((Map route) {
       return route['method'] == method;
     }).lastWhere((Map route) {
       return route['parse'](url) != null;
