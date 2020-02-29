@@ -1,16 +1,11 @@
 import 'package:dore/dore.dart';
 
-void main() {
-  Router router = Router();
+main() {
+  Dore server = Dore(port: 3000);
 
-  router.get('/admin', () {
-    print("called admin");
+  server.get('/user/:id', () {
+    return "Hello, User";
   });
 
-  var obj = router.find(Method.GET, '/admin');
-
-  print(obj['parameters']);
-  obj['handlers'].forEach((fn) {
-    fn();
-  });
+  server.listen();
 }

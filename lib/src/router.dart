@@ -1,4 +1,4 @@
-import 'package:dore/parser.dart';
+import 'parser.dart';
 
 enum Method {
   GET,
