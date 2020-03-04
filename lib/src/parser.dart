@@ -26,7 +26,7 @@ Function(String) define_parser(String path) {
   }
 
   return (String url) {
-    RegExp pattern = RegExp('^$regex_pattern\$');
+    RegExp pattern = RegExp('^$regex_pattern/?\$');
     if (pattern.hasMatch(url)) {
       return extract_parameters(
         parameter_keys,
@@ -40,6 +40,6 @@ Function(String) define_parser(String path) {
 
 Map extract_parameters(List<String> parameter_keys, Match match) {
   return {
-    for (var i = 0; i < parameter_keys.length; i++) parameter_keys[i]: match.group(i + 1),
+    for (int i = 0; i < parameter_keys.length; i++) parameter_keys[i]: match.group(i + 1),
   };
 }
