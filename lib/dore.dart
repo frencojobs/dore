@@ -1,6 +1,7 @@
 library Dore;
 
 import 'dart:io';
+import 'dart:convert';
 import 'src/router.dart';
 
 part 'src/request.dart';
