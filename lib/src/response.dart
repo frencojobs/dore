@@ -1,90 +1,90 @@
-part of Dore;
+part of dore;
 
 class Response {
   HttpResponse res;
   Response(this.res);
 
   Response code(int statusCode) {
-    this.res.statusCode = statusCode;
+    res.statusCode = statusCode;
     return this;
   }
 
-  int get statusCode => this.res.statusCode;
+  int get statusCode => res.statusCode;
 
   Response header(String name, Object value) {
-    this.res.headers.add(name, value);
+    res.headers.add(name, value);
     return this;
   }
 
   Response headers(Map<String, Object> headers) {
     headers.entries.forEach((entry) {
-      this.header(entry.key, entry.value);
+      header(entry.key, entry.value);
     });
 
     return this;
   }
 
   String getHeader(String key) {
-    return this.res.headers.value(key);
+    return res.headers.value(key);
   }
 
   void removeHeader(String key) {
-    this.res.headers.removeAll(key);
+    res.headers.removeAll(key);
   }
 
   bool hasHeader(String key) {
-    return this.res.headers.value(key) != null;
+    return res.headers.value(key) != null;
   }
 
   Future redirect(String location, {int status = HttpStatus.movedTemporarily}) {
-    return this.res.redirect(Uri.tryParse(location), status: status);
+    return res.redirect(Uri.tryParse(location), status: status);
   }
 
   Response type(ContentType contentType) {
-    this.header('Content-Type', contentType);
+    header('Content-Type', contentType);
     return this;
   }
 
   Response send(dynamic body) {
     if (body is Map) {
-      this._json(body);
+      _json(body);
     } else if (body is String) {
-      if (!this.hasHeader('Content-Type')) {
-        this.type(ContentType.text);
+      if (!hasHeader('Content-Type')) {
+        type(ContentType.text);
       }
 
-      this._write(body);
-      this._close();
+      _write(body);
+      _close();
     }
 
     return this;
   }
 
   Future end() {
-    return this._close();
+    return _close();
   }
 
-  List<Cookie> get cookies => this.res.cookies;
+  List<Cookie> get cookies => res.cookies;
 
   Future _close() {
-    return this.res.close();
+    return res.close();
   }
 
   void _write(Object obj) {
-    this.res.write(obj);
+    res.write(obj);
   }
 
   Response _json(Map<String, dynamic> data) {
-    this.type(ContentType.json);
+    type(ContentType.json);
 
-    this.send(json.encode(data));
+    send(json.encode(data));
     return this;
   }
 
   Response _html(String html) {
-    this.type(ContentType.html);
+    type(ContentType.html);
 
-    this.send(html);
+    send(html);
     return this;
   }
 }

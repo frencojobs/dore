@@ -1,4 +1,4 @@
-library Dore;
+library dore;
 
 import 'dart:io';
 import 'dart:convert';
@@ -16,13 +16,13 @@ class Dore extends Router {
     final InternetAddress address = this.address ?? InternetAddress.loopbackIPv4;
     final port = this.port;
 
-    HttpServer server = await HttpServer.bind(address, port);
+    var server = await HttpServer.bind(address, port);
     callback();
     await for (HttpRequest req in server) {
-      this.find(req.method, req.uri.toString())['handlers'].forEach((fn) {
+      find(req.method, req.uri.toString())['handlers'].forEach((fn) {
         fn(Request(req), Response(req.response));
       });
-      req.response.close();
+      await req.response.close();
     }
   }
 }

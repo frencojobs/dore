@@ -1,14 +1,14 @@
 Function(String) define_parser(String path) {
-  List<String> path_segments = path.split('/');
-  List<String> parameter_keys = [];
-  String regex_pattern = '';
+  var path_segments = path.split('/');
+  var parameter_keys = <String>[];
+  var regex_pattern = '';
 
   if (path_segments[0] == '') {
     path_segments.removeAt(0);
   }
 
-  for (String segment in path_segments) {
-    String head = segment[0];
+  for (var segment in path_segments) {
+    var head = segment[0];
 
     switch (head) {
       case '*':
@@ -26,7 +26,7 @@ Function(String) define_parser(String path) {
   }
 
   return (String url) {
-    RegExp pattern = RegExp('^$regex_pattern/?\$');
+    var pattern = RegExp('^$regex_pattern/?\$');
     if (pattern.hasMatch(url)) {
       return extract_parameters(
         parameter_keys,
