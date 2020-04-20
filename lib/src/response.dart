@@ -1,18 +1,18 @@
 part of dore;
 
 class Response {
-  HttpResponse res;
-  Response(this.res);
+  final HttpResponse _res;
+  Response(this._res);
 
   Response code(int statusCode) {
-    res.statusCode = statusCode;
+    _res.statusCode = statusCode;
     return this;
   }
 
-  int get statusCode => res.statusCode;
+  int get statusCode => _res.statusCode;
 
   Response header(String name, Object value) {
-    res.headers.add(name, value);
+    _res.headers.add(name, value);
     return this;
   }
 
@@ -25,19 +25,19 @@ class Response {
   }
 
   String getHeader(String key) {
-    return res.headers.value(key);
+    return _res.headers.value(key);
   }
 
   void removeHeader(String key) {
-    res.headers.removeAll(key);
+    _res.headers.removeAll(key);
   }
 
   bool hasHeader(String key) {
-    return res.headers.value(key) != null;
+    return _res.headers.value(key) != null;
   }
 
   Future redirect(String location, {int status = HttpStatus.movedTemporarily}) {
-    return res.redirect(Uri.tryParse(location), status: status);
+    return _res.redirect(Uri.tryParse(location), status: status);
   }
 
   Response type(ContentType contentType) {
@@ -64,14 +64,14 @@ class Response {
     return _close();
   }
 
-  List<Cookie> get cookies => res.cookies;
+  List<Cookie> get cookies => _res.cookies;
 
   Future _close() {
-    return res.close();
+    return _res.close();
   }
 
   void _write(Object obj) {
-    res.write(obj);
+    _res.write(obj);
   }
 
   Response _json(Map<String, dynamic> data) {
