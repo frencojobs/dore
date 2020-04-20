@@ -12,15 +12,17 @@ class Dore extends Router {
   String address;
   Dore(this.port, {this.address});
 
-  void listen([Function callback]) async {
-    final InternetAddress address = this.address ?? InternetAddress.loopbackIPv4;
+  void run([Function callback]) async {
+    final InternetAddress address =
+        this.address ?? InternetAddress.loopbackIPv4;
     final port = this.port;
 
     var server = await HttpServer.bind(address, port);
-    callback();
+    if (callback != null) callback();
     await for (HttpRequest req in server) {
-      find(req.method, req.uri.toString())['handlers'].forEach((fn) {
-        fn(Request(req), Response(req.response));
+      var _record = find(req.method, req.uri.toString());
+      _record.handlers.forEach((fn) {
+        fn(Request(req, _record.parameters), Response(req.response));
       });
       await req.response.close();
     }
