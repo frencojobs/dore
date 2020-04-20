@@ -11,6 +11,13 @@ abstract class Method {
   static String TRACE = 'TRACE';
 }
 
+class Record {
+  final Map parameters;
+  final List handlers;
+
+  Record({this.parameters, this.handlers});
+}
+
 class Route {
   String method;
   Function(String) parse;
@@ -21,7 +28,14 @@ class Route {
 
 class Router {
   List<Route> _routes;
-  Function(String, dynamic) get, head, post, put, delete, connect, options, trace;
+  Function(String, dynamic) get,
+      head,
+      post,
+      put,
+      delete,
+      connect,
+      options,
+      trace;
 
   Router() {
     _routes = [];
@@ -51,7 +65,7 @@ class Router {
     _routes.add(Route(method, parse, fns));
   }
 
-  Map find(String method, String url) {
+  Record find(String method, String url) {
     var r = _routes.where((Route route) {
       return route.method == method;
     }).lastWhere((Route route) {
@@ -61,15 +75,15 @@ class Router {
     });
 
     if (r == null) {
-      return {
-        'parameters': {},
-        'handlers': [],
-      };
+      return Record(
+        parameters: {},
+        handlers: [],
+      );
     }
 
-    return {
-      'parameters': r.parse(url),
-      'handlers': r.handlers,
-    };
+    return Record(
+      parameters: r.parse(url),
+      handlers: r.handlers,
+    );
   }
 }
