@@ -1,5 +1,9 @@
 part of dore;
 
 class Request {
-  Request(HttpRequest req) {}
+  final HttpRequest _req;
+  final Map _parameters;
+  Request(this._req, this._parameters);
+
+  Map get params => _parameters;
 }
