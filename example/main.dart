@@ -1,13 +1,17 @@
 import 'package:dore/dore.dart';
 
-void main() {
-  var server = Dore(3000);
+Dore createApplication() {
+  final port = 3000;
+  final server = Dore(port);
 
   server.get('/user/:id', (Request req, Response res) {
-    res.send('Hello, User');
+    final id = req.params['id'];
+    res.send('Hello, User $id');
   });
 
-  server.listen(() {
-    print('Server is listening on port 3000.');
-  });
+  return server;
+}
+
+void main() {
+  createApplication().run();
 }
