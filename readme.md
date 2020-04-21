@@ -1,6 +1,8 @@
-## ![dore logo](/media/dore.png)
+![dore logo](media/dore.png)
 
-<p align="center">A web framework for dart.</p>
+## Dore
+
+A web framework for dart.
 
 ## Usage
 
