@@ -1,6 +1,6 @@
 ![dore logo](media/dore.png)
 
-## Dore
+# Dore
 
 A web framework for dart.
 
