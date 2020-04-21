@@ -1,6 +1,6 @@
 Function(String) define_parser(String path) {
   var path_segments = path.split('/');
-  var parameter_keys = <String>[];
+  var param_keys = <String>[];
   var regex_pattern = '';
 
   if (path_segments[0] == '') {
@@ -8,15 +8,15 @@ Function(String) define_parser(String path) {
   }
 
   for (var segment in path_segments) {
-    var head = segment[0];
+    var head = segment.isEmpty ? '' : segment[0];
 
     switch (head) {
       case '*':
-        parameter_keys.add('wildcard');
+        param_keys.add('wildcard');
         regex_pattern += '/(.*)';
         break;
       case ':':
-        parameter_keys.add(segment.substring(1, segment.length));
+        param_keys.add(segment.substring(1, segment.length));
         regex_pattern += '/([^/]+?)';
         break;
       default:
@@ -28,8 +28,8 @@ Function(String) define_parser(String path) {
   return (String url) {
     var pattern = RegExp('^$regex_pattern/?\$');
     if (pattern.hasMatch(url)) {
-      return extract_parameters(
-        parameter_keys,
+      return extract_params(
+        param_keys,
         pattern.matchAsPrefix(url),
       );
     } else {
@@ -38,8 +38,9 @@ Function(String) define_parser(String path) {
   };
 }
 
-Map extract_parameters(List<String> parameter_keys, Match match) {
+Map extract_params(List<String> param_keys, Match match) {
   return {
-    for (int i = 0; i < parameter_keys.length; i++) parameter_keys[i]: match.group(i + 1),
+    for (int i = 0; i < param_keys.length; i++)
+      param_keys[i]: match.group(i + 1),
   };
 }

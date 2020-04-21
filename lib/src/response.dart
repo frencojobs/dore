@@ -1,8 +1,24 @@
 part of dore;
 
+/// Response
+/// code()
+/// statusCode
+/// header()
+/// headers()
+/// getHeader()
+/// removeHeader()
+/// hasHeader()
+/// redirect()
+/// type()
+/// send()
+/// end()
+/// cookies
+/// getResponseTime()
 class Response {
   final HttpResponse _res;
-  Response(this._res);
+  final Stopwatch _requestStopwatch;
+  Response(this._res, {requestStopWatch})
+      : _requestStopwatch = requestStopWatch;
 
   Response code(int statusCode) {
     _res.statusCode = statusCode;
@@ -41,7 +57,7 @@ class Response {
   }
 
   Response type(ContentType contentType) {
-    header('Content-Type', contentType);
+    header('Content-Type', contentType.toString());
     return this;
   }
 
@@ -52,7 +68,6 @@ class Response {
       if (!hasHeader('Content-Type')) {
         type(ContentType.text);
       }
-
       _write(body);
       _close();
     }
@@ -87,4 +102,6 @@ class Response {
     send(html);
     return this;
   }
+
+  int get getResponseTime => _requestStopwatch.elapsedMilliseconds;
 }

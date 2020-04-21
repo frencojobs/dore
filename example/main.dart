@@ -4,14 +4,15 @@ Dore createApplication() {
   final port = 3000;
   final server = Dore(port);
 
-  server.get('/user/:id', (Request req, Response res) {
-    final id = req.params['id'];
-    res.send('Hello, User $id');
+  server.get('/', (req, res) {
+    res.send('Hello, World');
   });
 
   return server;
 }
 
 void main() {
-  createApplication().run();
+  final app = createApplication()..run();
+
+  print('Server is listening on http://${app.host}:${app.port}');
 }
