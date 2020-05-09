@@ -31,3 +31,6 @@ void main() {
 }
 
 ```
+## License
+
+MIT &copy; Frenco Jobs
