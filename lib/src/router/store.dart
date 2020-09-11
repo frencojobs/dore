@@ -4,31 +4,27 @@ part of dore_router;
 /// separated from the Router class
 /// to reduce time complexity adding new handlers
 class Store<T> {
-  Map<String, Map<String, List<T>>> _store;
-
-  Store() {
-    _store = {
-      'GET': {},
-      'HEAD': {},
-      'POST': {},
-      'PUT': {},
-      'DELETE': {},
-      'CONNECT': {},
-      'OPTIONS': {},
-      'TRACE': {},
-    };
-  }
+  Map<String, Map<String, List<T>>> store = {
+    'GET': {},
+    'HEAD': {},
+    'POST': {},
+    'PUT': {},
+    'DELETE': {},
+    'CONNECT': {},
+    'OPTIONS': {},
+    'TRACE': {},
+  };
 
   void add(String method, String url, List<T> fns) {
-    if (!_store[method].containsKey(url)) {
-      _store[method][url] = [];
+    if (!store[method].containsKey(url)) {
+      store[method][url] = [];
     }
-    _store[method][url].addAll(fns);
+    store[method][url].addAll(fns);
   }
 
   List<T> find(String method, String url) {
-    if (_store[method].containsKey(url)) {
-      return _store[method][url];
+    if (store[method].containsKey(url)) {
+      return store[method][url];
     } else {
       return [];
     }

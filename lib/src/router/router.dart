@@ -9,11 +9,11 @@ part 'route.dart';
 part 'store.dart';
 part 'utils.dart';
 
-typedef Controller = Function(Request, Response);
-typedef Definition = Function(String, Controller);
+typedef Controller = void Function(Request, Response);
+typedef Definition = void Function(String, Controller);
 
 /// Router
-/// not only with dore, can also works standalone
+/// not only with dore, can also work standalone
 class Router {
   List<Route> _routes;
   List<Controller> _wares;
