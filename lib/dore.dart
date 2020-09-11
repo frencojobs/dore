@@ -10,15 +10,13 @@ part 'src/response.dart';
 class Dore extends Router {
   int port;
   String host;
-  Dore(this.port, {this.host});
+  Dore(this.port, {this.host = 'localhost'});
 
-  void run([Function callback]) async {
-    final InternetAddress host = this.host ?? InternetAddress.loopbackIPv4;
-    if (this.host == null) this.host = 'localhost';
+  void run() async {
+    final host = this.host;
     final port = this.port;
 
     var server = await HttpServer.bind(host, port);
-    if (callback != null) callback();
     await for (HttpRequest req in server) {
       final requestStopWatch = Stopwatch()..start();
 
